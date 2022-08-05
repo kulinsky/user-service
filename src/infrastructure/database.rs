@@ -1,5 +1,5 @@
 use sqlx::pool::Pool;
-use sqlx::postgres::{PgPoolOptions, PgRow, Postgres};
+use sqlx::postgres::{PgPoolOptions, Postgres};
 
 use crate::error::{Error, ErrorKind, Result};
 
