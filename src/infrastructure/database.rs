@@ -5,6 +5,8 @@ use crate::error::{Error, ErrorKind, Result};
 
 use super::config::Config;
 
+const SQL_SELECT_ONE: &str = "select 1";
+
 pub async fn create_pool(config: &Config) -> Result<Pool<Postgres>> {
     PgPoolOptions::new()
         .max_connections(config.database.max_conn)
@@ -14,7 +16,7 @@ pub async fn create_pool(config: &Config) -> Result<Pool<Postgres>> {
 }
 
 pub async fn ping(pool: &Pool<Postgres>) -> Result<()> {
-    sqlx::query("select 1").fetch_one(pool).await?;
+    sqlx::query(SQL_SELECT_ONE).fetch_one(pool).await?;
 
     Ok(())
 }
