@@ -13,11 +13,10 @@ pub async fn create_pool(config: &Config) -> Result<Pool<Postgres>> {
         .map_err(Error::from)
 }
 
-pub async fn ping(pool: &Pool<Postgres>) -> Result<PgRow> {
-    sqlx::query("select 1")
-        .fetch_one(pool)
-        .await
-        .map_err(Error::from)
+pub async fn ping(pool: &Pool<Postgres>) -> Result<()> {
+    sqlx::query("select 1").fetch_one(pool).await?;
+
+    Ok(())
 }
 
 impl From<sqlx::Error> for Error {
