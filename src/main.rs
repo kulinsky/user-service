@@ -24,10 +24,6 @@ async fn main() -> Result<(), error::Error> {
 
     let u = repo.get_by_id(&test_user_id).await?;
 
-    let id = domain::user::value_objects::UserID {
-        value: uuid::Uuid::new_v4(),
-    };
-
     println!("{:?}", u);
 
     Ok(())
