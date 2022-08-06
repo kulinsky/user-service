@@ -8,10 +8,15 @@ edition = "2021"
 [dependencies]
 async-trait = "0.1"
 tokio = { version = "1", features = ["full"] }
-sqlx = { version = "0.6.0", features = [ "runtime-tokio-native-tls" , "postgres" ] }
+sqlx = { version = "0.6.0", features = [
+    "runtime-tokio-rustls",
+    "postgres",
+    "uuid",
+] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 uuid = { version = "1.1.2", features = ["serde", "v4"] }
 lazy_static = "1"
 async_once = "0.2"
 envconfig = "0.10.0"
+uuid7 = "0.2.6"

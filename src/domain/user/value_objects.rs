@@ -1,9 +1,30 @@
+use uuid::Uuid;
+
 use crate::error::Result;
 
+#[derive(Debug)]
 pub struct UserID {
-    value: i64,
+    pub value: Uuid,
+}
+
+impl UserID {
+    pub fn value(&self) -> Uuid {
+        self.value
+    }
+}
+
+impl From<Uuid> for UserID {
+    fn from(id: Uuid) -> Self {
+        Self { value: id }
+    }
+}
+
+impl PartialEq for UserID {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
 
 pub trait UserIDProvider {
-    pub fn provide() -> Result<UserID>;
+    fn provide() -> Result<UserID>;
 }
