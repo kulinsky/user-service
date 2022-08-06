@@ -1,7 +1,10 @@
 use std::str::FromStr;
 
-use crate::domain::user::{repository::Repository, value_objects::UserID};
+use crate::{
+    application::services::user::service::UserService, domain::user::value_objects::UserID,
+};
 
+mod application;
 mod error;
 mod implementation;
 mod infrastructure;
@@ -22,7 +25,9 @@ async fn main() -> Result<(), error::Error> {
 
     let test_user_id = UserID::from(test_id);
 
-    let u = repo.get_by_id(&test_user_id).await?;
+    let user_service = UserService::new(repo);
+
+    let u = user_service.get_by_id(&test_user_id).await?;
 
     println!("{:?}", u);
 
