@@ -20,3 +20,4 @@ lazy_static = "1"
 async_once = "0.2"
 envconfig = "0.10.0"
 uuid7 = "0.2.6"
+validator = { version = "0.15", features = ["derive"] }

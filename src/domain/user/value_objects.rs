@@ -1,5 +1,7 @@
 use uuid::Uuid;
 
+use validator::Validate;
+
 use crate::error::Result;
 
 #[derive(Debug)]
@@ -27,4 +29,26 @@ impl PartialEq for UserID {
 
 pub trait UserIDProvider {
     fn provide() -> Result<UserID>;
+}
+
+#[derive(Debug, Validate)]
+pub struct Email {
+    #[validate(email)]
+    pub value: String,
+}
+
+impl Email {
+    pub fn new(s: String) -> Result<Email> {
+        let email = Self { value: s };
+
+        email.validate()?;
+
+        Ok(email)
+    }
+}
+
+impl PartialEq for Email {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }
