@@ -25,7 +25,9 @@ async fn main() -> Result<(), error::Error> {
 
     let test_user_id = UserID::from(test_id);
 
-    let user_service = UserService::new(repo);
+    let id_provider = implementation::uuid7_id_provider::UserIDProviderUUID7::new();
+
+    let user_service = UserService::new(repo, id_provider);
 
     let u = user_service.get_by_id(&test_user_id).await?;
 
