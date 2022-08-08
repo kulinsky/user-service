@@ -28,7 +28,7 @@ impl PartialEq for UserID {
 }
 
 pub trait UserIDProvider {
-    fn provide() -> Result<UserID>;
+    fn provide(&self) -> Result<UserID>;
 }
 
 #[derive(Debug, Validate)]
