@@ -1,15 +1,6 @@
 use std::str::FromStr;
 
-use crate::{
-    application::services::user::service::UserService,
-    domain::user::{
-        entity::User,
-        repository::Repository,
-        value_objects::{Email, UserID, UserIDProvider},
-    },
-    implementation::postgres::repository::UserPGRepository,
-    store::Store,
-};
+use crate::{application::services::user::service::UserService, store::Store};
 
 mod application;
 mod error;
