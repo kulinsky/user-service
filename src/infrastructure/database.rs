@@ -1,22 +1,31 @@
+use std::time::Duration;
+
 use sqlx::pool::Pool;
 use sqlx::postgres::{PgPoolOptions, Postgres};
+use sqlx::{Executor, Transaction};
 
+use super::config;
 use crate::error::{Error, ErrorKind, Result};
 
-use super::config::Config;
+pub type DB = Pool<Postgres>;
+pub trait Queryer<'c>: Executor<'c, Database = sqlx::Postgres> {}
 
-const SQL_SELECT_ONE: &str = "select 1";
+impl<'c> Queryer<'c> for &Pool<Postgres> {}
+impl<'c> Queryer<'c> for &'c mut Transaction<'_, Postgres> {}
 
-pub async fn create_pool(config: &Config) -> Result<Pool<Postgres>> {
+pub async fn connect(database: &config::DbConfig) -> Result<DB> {
     PgPoolOptions::new()
-        .max_connections(config.database.max_conn)
-        .connect(&config.database.get_connect_string())
+        .max_connections(database.pool_size)
+        .max_lifetime(Duration::from_secs(30 * 60)) // 30 mins
+        .connect(&database.get_connect_string())
         .await
-        .map_err(Error::from)
+        .map_err(|err| err.into())
 }
 
-pub async fn ping(pool: &Pool<Postgres>) -> Result<()> {
-    sqlx::query(SQL_SELECT_ONE).fetch_one(pool).await?;
+pub async fn ping(pool: &DB) -> Result<()> {
+    const QUERY: &str = "select 1";
+
+    sqlx::query(QUERY).fetch_one(pool).await?;
 
     Ok(())
 }

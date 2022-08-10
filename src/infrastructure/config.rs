@@ -21,6 +21,9 @@ pub struct DbConfig {
 
     #[envconfig(from = "DB_MAX_CONN", default = "5")]
     pub max_conn: u32,
+
+    #[envconfig(from = "DB_POOL_SIZE", default = "5")]
+    pub pool_size: u32,
 }
 
 impl DbConfig {
