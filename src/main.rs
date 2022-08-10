@@ -52,7 +52,7 @@ async fn main() -> Result<(), error::Error> {
 
     println!("{:?}", u);
 
-    let tx = user_service.repository.begin().await.unwrap();
+    let tx = user_service.repository.begin().await?;
 
     user_service.repository.rollback(tx).await;
 
