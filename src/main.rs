@@ -54,7 +54,7 @@ async fn main() -> Result<(), error::Error> {
 
     let tx = user_service.repository.begin().await?;
 
-    user_service.repository.rollback(tx).await;
+    user_service.repository.rollback(tx).await?;
 
     Ok(())
 }
