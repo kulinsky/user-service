@@ -8,6 +8,7 @@ use crate::error::Result;
 
 use crate::domain::user::entity::User;
 use crate::domain::user::repository::Repository;
+use crate::store::{Store, StoreTx};
 
 use super::dto::UserFromRepo;
 
@@ -46,5 +47,39 @@ impl Repository for UserPGRepository {
             .await?;
 
         Ok(())
+    }
+}
+
+#[async_trait]
+impl Store<'_> for UserPGRepository {
+    async fn begin(&self) -> Result<Option<StoreTx>> {
+        let tx = self.pool.begin().await?;
+        println!("tx started");
+        Ok(Some(StoreTx::PGTX(tx)))
+    }
+
+    async fn rollback(maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
+        match maybe_tx {
+            Some(store_tx) => match store_tx {
+                StoreTx::PGTX(pg_tx) => {
+                    pg_tx.commit().await?;
+                    println!("tx rolled back");
+                    Ok(())
+                }
+            },
+            None => Ok(()),
+        }
+    }
+
+    async fn commit(maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
+        match maybe_tx {
+            Some(store_tx) => match store_tx {
+                StoreTx::PGTX(pg_tx) => {
+                    pg_tx.rollback().await?;
+                    Ok(())
+                }
+            },
+            None => Ok(()),
+        }
     }
 }

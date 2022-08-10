@@ -1,19 +1,20 @@
 use crate::domain::user::value_objects::{UserID, UserIDProvider};
 use crate::domain::user::{entity::User, repository::Repository};
 use crate::error::Result;
+use crate::store::{Store, StoreTx};
 
 pub struct UserService<R, P>
 where
-    R: Repository,
+    for<'a> R: Repository + Store<'a>,
     P: UserIDProvider,
 {
-    repository: R,
-    id_provider: P,
+    pub repository: R,
+    pub id_provider: P,
 }
 
 impl<R, P> UserService<R, P>
 where
-    R: Repository,
+    for<'a> R: Repository + Store<'a>,
     P: UserIDProvider,
 {
     pub fn new(repository: R, id_provider: P) -> Self {

@@ -7,12 +7,15 @@ use crate::{
         repository::Repository,
         value_objects::{Email, UserID, UserIDProvider},
     },
+    implementation::postgres::repository::UserPGRepository,
+    store::Store,
 };
 
 mod application;
 mod error;
 mod implementation;
 mod infrastructure;
+mod store;
 
 mod domain;
 
@@ -48,6 +51,10 @@ async fn main() -> Result<(), error::Error> {
     let u = user_service.get_by_id(&test_user_id).await?;
 
     println!("{:?}", u);
+
+    let tx = user_service.repository.begin().await.unwrap();
+
+    UserPGRepository::rollback(tx).await;
 
     Ok(())
 }
