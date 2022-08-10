@@ -11,7 +11,7 @@ pub enum StoreTx<'a> {
 pub trait Store<'a> {
     async fn begin(&self) -> Result<Option<StoreTx>>;
 
-    async fn commit(maybe_tx: Option<StoreTx<'_>>) -> Result<()>;
+    async fn commit(&self, maybe_tx: Option<StoreTx<'_>>) -> Result<()>;
 
-    async fn rollback(maybe_tx: Option<StoreTx<'_>>) -> Result<()>;
+    async fn rollback(&self, maybe_tx: Option<StoreTx<'_>>) -> Result<()>;
 }

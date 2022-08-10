@@ -58,7 +58,7 @@ impl Store<'_> for UserPGRepository {
         Ok(Some(StoreTx::PGTX(tx)))
     }
 
-    async fn rollback(maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
+    async fn rollback(&self, maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
         match maybe_tx {
             Some(store_tx) => match store_tx {
                 StoreTx::PGTX(pg_tx) => {
@@ -71,7 +71,7 @@ impl Store<'_> for UserPGRepository {
         }
     }
 
-    async fn commit(maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
+    async fn commit(&self, maybe_tx: Option<StoreTx<'_>>) -> Result<()> {
         match maybe_tx {
             Some(store_tx) => match store_tx {
                 StoreTx::PGTX(pg_tx) => {
