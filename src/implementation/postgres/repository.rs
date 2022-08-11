@@ -26,7 +26,7 @@ impl Repository for UserRepositoryPG {
             .fetch_one(db)
             .await?;
 
-        Ok(User::from(result))
+        Ok(result.try_into()?)
     }
 
     async fn create<'c, C: Queryer<'c>>(&self, db: C, user: &User) -> Result<()> {

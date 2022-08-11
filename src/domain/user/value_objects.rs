@@ -57,6 +57,14 @@ impl Email {
     }
 }
 
+impl TryFrom<String> for Email {
+    type Error = Error;
+
+    fn try_from(value: String) -> Result<Self> {
+        Email::new(value)
+    }
+}
+
 impl PartialEq for Email {
     fn eq(&self, other: &Self) -> bool {
         self.value == other.value

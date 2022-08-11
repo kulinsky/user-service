@@ -2,7 +2,7 @@ use sqlx::FromRow;
 use uuid::Uuid;
 
 use crate::domain::user::entity::User;
-use crate::domain::user::value_objects::{Email, UserID};
+use crate::error::{Error, Result};
 
 #[derive(Debug, FromRow)]
 pub struct UserFromRepo {
@@ -12,13 +12,15 @@ pub struct UserFromRepo {
     last_name: String,
 }
 
-impl From<UserFromRepo> for User {
-    fn from(dto: UserFromRepo) -> Self {
-        Self {
-            id: UserID::from(dto.id),
-            email: Email { value: dto.email },
-            first_name: dto.first_name,
-            last_name: dto.last_name,
-        }
+impl TryFrom<UserFromRepo> for User {
+    type Error = Error;
+
+    fn try_from(value: UserFromRepo) -> Result<Self> {
+        Ok(Self {
+            id: value.id.into(),
+            email: value.email.try_into()?,
+            first_name: value.first_name,
+            last_name: value.last_name,
+        })
     }
 }
