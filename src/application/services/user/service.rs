@@ -1,28 +1,24 @@
-use crate::domain::user::value_objects::{UserID, UserIDProvider};
+use crate::domain::user::value_objects::UserID;
 use crate::domain::user::{entity::User, repository::Repository};
 use crate::error::{Error, Result};
 use crate::infrastructure::database::DB;
 
-pub struct UserService<R, P>
+pub struct UserService<R>
 where
     R: Repository,
-    P: UserIDProvider,
 {
     repository: R,
-    id_provider: P,
     queryer: DB,
 }
 
-impl<R, P> UserService<R, P>
+impl<R> UserService<R>
 where
     R: Repository,
-    P: UserIDProvider,
 {
-    pub fn new(queryer: DB, repository: R, id_provider: P) -> Self {
+    pub fn new(queryer: DB, repository: R) -> Self {
         Self {
             queryer,
             repository,
-            id_provider,
         }
     }
 
