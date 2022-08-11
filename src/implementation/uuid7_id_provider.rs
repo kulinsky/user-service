@@ -4,6 +4,7 @@ use uuid7;
 use crate::domain::user::value_objects::{UserID, UserIDProvider};
 use crate::error::Result;
 
+#[derive(Clone)]
 pub struct UserIDProviderUUID7 {}
 
 impl UserIDProviderUUID7 {

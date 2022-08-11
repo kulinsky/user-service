@@ -1,8 +1,10 @@
+use std::str::FromStr;
+
 use uuid::Uuid;
 
 use validator::Validate;
 
-use crate::error::Result;
+use crate::error::{Error, Result};
 
 #[derive(Debug)]
 pub struct UserID {
@@ -18,6 +20,14 @@ impl UserID {
 impl From<Uuid> for UserID {
     fn from(id: Uuid) -> Self {
         Self { value: id }
+    }
+}
+
+impl TryFrom<String> for UserID {
+    type Error = Error;
+
+    fn try_from(value: String) -> Result<Self> {
+        Ok(Uuid::from_str(&value)?.into())
     }
 }
 
