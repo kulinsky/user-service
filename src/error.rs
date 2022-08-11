@@ -1,6 +1,5 @@
 use std::fmt;
 
-use uuid;
 use validator::{ValidationError, ValidationErrors};
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -9,7 +8,7 @@ pub enum ErrorKind {
     NotFound,
     Validation(String),
     Repository(String),
-    UUID,
+    Uuid,
     Configuration,
 }
 
@@ -19,7 +18,7 @@ impl fmt::Display for ErrorKind {
             ErrorKind::NotFound => write!(f, "NotFound"),
             ErrorKind::Validation(err) => write!(f, "Validation({})", err),
             ErrorKind::Repository(repo) => write!(f, "Repository({})", repo),
-            ErrorKind::UUID => write!(f, "UUID_Provider"),
+            ErrorKind::Uuid => write!(f, "UUID_Provider"),
             ErrorKind::Configuration => write!(f, "Configuration"),
         }
     }
@@ -57,7 +56,7 @@ impl From<ValidationErrors> for Error {
 impl From<uuid::Error> for Error {
     fn from(err: uuid::Error) -> Self {
         Self {
-            kind: ErrorKind::UUID,
+            kind: ErrorKind::Uuid,
             message: err.to_string(),
         }
     }

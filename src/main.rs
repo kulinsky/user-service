@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use crate::domain::user::repository::Repository;
+use crate::application::services::user::service::UserService;
 
 mod application;
 mod domain;
@@ -22,15 +22,10 @@ async fn main() -> Result<(), error::Error> {
 
     let id_provider = implementation::uuid7_id_provider::UserIDProviderUUID7::new();
 
-    let u = repo.get_by_id(&db_pool, &test_user_id).await?;
+    let user_service = UserService::new(db_pool, repo, id_provider);
 
+    let u = user_service.get_by_id(&test_user_id).await?;
     println!("{:?}", u);
-
-    let mut tx = db_pool.begin().await?;
-
-    let u2 = repo.get_by_id(&mut tx, &test_user_id).await?;
-
-    println!("{:?}", u2);
 
     Ok(())
 }

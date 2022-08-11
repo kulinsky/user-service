@@ -13,6 +13,11 @@ pub trait Queryer<'c>: Executor<'c, Database = sqlx::Postgres> {}
 impl<'c> Queryer<'c> for &Pool<Postgres> {}
 impl<'c> Queryer<'c> for &'c mut Transaction<'_, Postgres> {}
 
+pub trait Persister<'c>: Executor<'c, Database = sqlx::Postgres> {}
+
+impl<'c> Persister<'c> for &Pool<Postgres> {}
+impl<'c> Persister<'c> for &'c mut Transaction<'_, Postgres> {}
+
 pub async fn connect(database: &config::DbConfig) -> Result<DB> {
     PgPoolOptions::new()
         .max_connections(database.pool_size)
