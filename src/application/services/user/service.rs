@@ -8,9 +8,9 @@ where
     R: Repository,
     P: UserIDProvider,
 {
-    pub repository: R,
-    pub id_provider: P,
-    pub queryer: DB,
+    repository: R,
+    id_provider: P,
+    queryer: DB,
 }
 
 impl<R, P> UserService<R, P>
