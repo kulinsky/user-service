@@ -15,8 +15,6 @@ impl UserIDProviderUUID7 {
 
 impl UserIDProvider for UserIDProviderUUID7 {
     fn provide(&self) -> Result<UserID> {
-        let id = uuid::Uuid::from_slice(uuid7::uuid7().as_bytes())?;
-
-        Ok(UserID { value: id })
+        Ok(uuid::Uuid::from_slice(uuid7::uuid7().as_bytes())?.into())
     }
 }
