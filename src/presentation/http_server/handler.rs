@@ -28,8 +28,8 @@ pub async fn get_by_id(
     let u = user_service.get_by_id(&id).await.unwrap();
 
     let resp = UserResponse {
-        id: u.id().value,
-        email: u.email().value,
+        id: u.id().value(),
+        email: u.email().value(),
         first_name: u.first_name(),
         last_name: u.last_name(),
     };

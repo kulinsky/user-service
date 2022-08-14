@@ -8,12 +8,12 @@ use crate::error::{Error, Result};
 
 #[derive(Debug, Clone)]
 pub struct UserID {
-    pub value: Uuid,
+    value: Uuid,
 }
 
 impl UserID {
     pub fn value(&self) -> Uuid {
-        self.value
+        self.value.clone()
     }
 }
 
@@ -44,7 +44,7 @@ pub trait UserIDProvider {
 #[derive(Debug, Validate, Clone)]
 pub struct Email {
     #[validate(email)]
-    pub value: String,
+    value: String,
 }
 
 impl Email {
@@ -56,8 +56,8 @@ impl Email {
         Ok(email)
     }
 
-    pub fn get_value(&self) -> &str {
-        &self.value
+    pub fn value(&self) -> String {
+        self.value.clone()
     }
 }
 
