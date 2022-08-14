@@ -1,11 +1,11 @@
 use super::value_objects::{Email, UserID};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct User {
-    pub id: UserID,
-    pub email: Email,
-    pub first_name: String,
-    pub last_name: String,
+    id: UserID,
+    email: Email,
+    first_name: String,
+    last_name: String,
 }
 
 impl User {
@@ -16,5 +16,21 @@ impl User {
             first_name,
             last_name,
         }
+    }
+
+    pub fn id(&self) -> UserID {
+        self.id.clone()
+    }
+
+    pub fn email(&self) -> Email {
+        self.email.clone()
+    }
+
+    pub fn first_name(&self) -> &str {
+        &self.first_name
+    }
+
+    pub fn last_name(&self) -> &str {
+        &self.last_name
     }
 }

@@ -34,10 +34,10 @@ impl Repository for UserRepositoryPG {
             "insert into users (id, email, first_name, last_name) values ($1, $2, $3, $4)";
 
         sqlx::query(QUERY)
-            .bind(&user.id.value)
-            .bind(&user.email.value)
-            .bind(&user.first_name)
-            .bind(&user.last_name)
+            .bind(&user.id().value)
+            .bind(&user.email().value)
+            .bind(&user.first_name())
+            .bind(&user.last_name())
             .execute(db)
             .await?;
 

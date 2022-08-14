@@ -6,7 +6,7 @@ use validator::Validate;
 
 use crate::error::{Error, Result};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct UserID {
     pub value: Uuid,
 }
@@ -41,7 +41,7 @@ pub trait UserIDProvider {
     fn provide(&self) -> Result<UserID>;
 }
 
-#[derive(Debug, Validate)]
+#[derive(Debug, Validate, Clone)]
 pub struct Email {
     #[validate(email)]
     pub value: String,
@@ -54,6 +54,10 @@ impl Email {
         email.validate()?;
 
         Ok(email)
+    }
+
+    pub fn get_value(&self) -> &str {
+        &self.value
     }
 }
 

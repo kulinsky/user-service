@@ -16,11 +16,11 @@ impl TryFrom<UserFromRepo> for User {
     type Error = Error;
 
     fn try_from(value: UserFromRepo) -> Result<Self> {
-        Ok(Self {
-            id: value.id.into(),
-            email: value.email.try_into()?,
-            first_name: value.first_name,
-            last_name: value.last_name,
-        })
+        Ok(Self::new(
+            value.id.into(),
+            value.email.try_into()?,
+            value.first_name,
+            value.last_name,
+        ))
     }
 }

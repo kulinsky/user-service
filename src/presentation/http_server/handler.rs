@@ -10,11 +10,11 @@ use crate::application::services::user::service::UserService;
 use crate::implementation::postgres::repository::UserRepositoryPG;
 
 #[derive(Serialize)]
-pub struct UserResponse {
+pub struct UserResponse<'a> {
     id: Uuid,
     email: String,
-    first_name: String,
-    last_name: String,
+    first_name: &'a str,
+    last_name: &'a str,
 }
 
 pub async fn get_by_id(
@@ -28,10 +28,10 @@ pub async fn get_by_id(
     let u = user_service.get_by_id(&id).await.unwrap();
 
     let resp = UserResponse {
-        id: u.id.value,
-        email: u.email.value,
-        first_name: u.first_name,
-        last_name: u.last_name,
+        id: u.id().value,
+        email: u.email().value,
+        first_name: u.first_name(),
+        last_name: u.last_name(),
     };
 
     Ok(json(&resp))
