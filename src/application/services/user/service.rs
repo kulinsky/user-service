@@ -1,7 +1,9 @@
+use crate::domain::user::entity::User;
 use crate::domain::user::value_objects::UserID;
-use crate::domain::user::{entity::User, repository::Repository};
 use crate::error::{Error, Result};
 use crate::infrastructure::database::DB;
+
+use super::repository::Repository;
 
 pub struct UserService<R>
 where

@@ -3,8 +3,8 @@ use async_trait::async_trait;
 use crate::error::Result;
 use crate::infrastructure::database::Queryer;
 
-use super::entity::User;
-use super::value_objects::UserID;
+use crate::domain::user::entity::User;
+use crate::domain::user::value_objects::UserID;
 
 #[async_trait]
 pub trait Repository {

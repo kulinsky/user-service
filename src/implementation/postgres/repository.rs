@@ -1,7 +1,7 @@
 use async_trait::async_trait;
 
+use crate::application::services::user::repository::Repository;
 use crate::domain::user::entity::User;
-use crate::domain::user::repository::Repository;
 use crate::domain::user::value_objects::UserID;
 use crate::error::Result;
 use crate::infrastructure::database::Queryer;
